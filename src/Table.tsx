@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableState as TableProps } from './type';
 
-const Table: React.FC<TableProps> = ({ columns, data }) => {
+const DataTable: React.FC<TableProps> = ({ columns, data }) => {
   // console.log(data);
   const ary = data.map((e) => Object.values(e));
 
@@ -27,4 +27,4 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
   );
 };
 
-export default Table;
+export default DataTable;

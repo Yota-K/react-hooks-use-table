@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useTable } from './use-table';
-import Table from './Table';
+import DataTable from './Table';
 
 function App() {
   type Data = { userId: string; id: string; title: string };
@@ -42,7 +42,7 @@ function App() {
   return (
     <div className="App">
       <input type="text" onChange={handleChange} />
-      {tableLoading ? <p>Loading Please wait...</p> : <Table columns={tableData.columns} data={tableData.data} />}
+      {tableLoading ? <p>Loading Please wait...</p> : <DataTable columns={tableData.columns} data={tableData.data} />}
     </div>
   );
 }
