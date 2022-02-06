@@ -22,13 +22,21 @@ export const useTable = <T extends { [T: string]: string }>(
 
   const tableItems = useMemo(() => data, [data]);
 
-  const filterTableItems = (keyqord: string) => {
-    const filterItems = tableItems.filter((e) => Object.values(e).join(',').includes(keyqord));
+  const filterTableItems = (keyword: string) => {
+    const filterItems = tableItems.filter((e) => Object.values(e).join(',').includes(keyword));
     setTableData({
       columns,
       data: filterItems,
     });
   };
 
-  return { tableData, setTableData, tableLoading, setTableLoading, filterTableItems };
+  const sortTableItems = (sortKey: string) => {
+    const sortItems = tableData.data.sort((a, b) => (a[sortKey] < b[sortKey] ? 1 : -1));
+    setTableData({
+      columns,
+      data: sortItems,
+    });
+  };
+
+  return { tableData, setTableData, tableLoading, setTableLoading, filterTableItems, sortTableItems };
 };
