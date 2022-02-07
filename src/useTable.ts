@@ -20,6 +20,8 @@ export const useTable = <T extends { [T: string]: string }>(
 
   const tableItems = useMemo(() => data, [data]);
 
+  const generateTableRow = (ary: T[]) => ary.map((e) => Object.values(e));
+
   const filterTableItems = (keyword: string) => {
     const filterItems = tableItems.filter((e) => Object.values(e).join(',').includes(keyword));
     setTableData({
@@ -36,5 +38,5 @@ export const useTable = <T extends { [T: string]: string }>(
     });
   };
 
-  return { tableData, setTableData, filterTableItems, sortTableItems };
+  return { tableData, setTableData, generateTableRow, filterTableItems, sortTableItems };
 };

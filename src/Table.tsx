@@ -2,8 +2,7 @@ import React from 'react';
 import { TableState as TableProps } from './type';
 
 const DataTable: React.FC<TableProps> = ({ columns, data }) => {
-  // console.log(data);
-  const ary = data.map((e) => Object.values(e));
+  const trs = data.map((e) => Object.values(e));
 
   return (
     <table>
@@ -15,9 +14,9 @@ const DataTable: React.FC<TableProps> = ({ columns, data }) => {
         </tr>
       </thead>
       <tbody>
-        {ary.map((trs, i) => (
+        {trs.map((tds, i) => (
           <tr key={i}>
-            {trs.map((e, i) => (
+            {tds.map((e, i) => (
               <td key={i}>{e}</td>
             ))}
           </tr>

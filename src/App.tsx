@@ -3,10 +3,10 @@ import { useTable } from './useTable';
 import DataTable from './Table';
 
 function App() {
-  const [mounted, setMounted] = useState(false);
-
   type Data = { userId: string; id: string; title: string };
+
   const [data, setData] = useState<Data[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -35,7 +35,8 @@ function App() {
     if (!mounted) fetchData();
   }, []);
 
-  const { tableData, setTableData, filterTableItems } = useTable<Data>(columns, data);
+  const { tableData, generateTableRow, setTableData, filterTableItems } = useTable<Data>(columns, data);
+  const tableRow = generateTableRow(tableData.data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     filterTableItems(e.target.value);
@@ -48,9 +49,24 @@ function App() {
         <input type="text" onChange={handleChange} />
       </div>
       {mounted && (
-        <>
-          <DataTable columns={tableData.columns} data={tableData.data} />
-        </>
+        <table>
+          <thead>
+            <tr>
+              {tableData.columns.map((e, i) => (
+                <th key={i}>{e.name}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableRow.map((tds, i) => (
+              <tr key={i}>
+                {tds.map((e, i) => (
+                  <td key={i}>{e}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
