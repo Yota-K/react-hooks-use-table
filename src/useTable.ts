@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { TableState } from './type';
 
 type StateType<T> = {
@@ -22,36 +22,42 @@ export const useTable = <T extends { [T: string]: string }>(
 
   const [sort, setSort] = useState<Order>('desc');
 
-  const tableItems = useMemo(() => data, [data]);
-
   const generateTableRow = (ary: T[]) => ary.map((e) => Object.values(e));
 
-  const filterTableItems = (keyword: string) => {
-    const filterItems = tableItems.filter((e) => Object.values(e).join(',').includes(keyword));
-    setTableData({
-      columns,
-      data: filterItems,
-    });
-  };
+  const tableItems = useMemo(() => data, [data]);
 
-  const sortTableItems = (sortKey: string) => {
-    let sortItems;
-
-    if (sort === 'desc') {
-      sortItems = tableData.data.sort((a, b) => (a[sortKey] < b[sortKey] ? 1 : -1));
-      setSort('asc');
-    } else if (sort === 'asc') {
-      sortItems = tableData.data.sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : -1));
-      setSort('desc');
-    }
-
-    if (sortItems) {
+  const filterTableItems = useCallback(
+    (keyword: string) => {
+      const filterItems = tableItems.filter((e) => Object.values(e).join(',').includes(keyword));
       setTableData({
         columns,
-        data: sortItems,
+        data: filterItems,
       });
-    }
-  };
+    },
+    [tableItems]
+  );
+
+  const sortTableItems = useCallback(
+    (sortKey: string) => {
+      let sortItems;
+
+      if (sort === 'desc') {
+        sortItems = tableItems.sort((a, b) => (a[sortKey] < b[sortKey] ? 1 : -1));
+        setSort('asc');
+      } else if (sort === 'asc') {
+        sortItems = tableItems.sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : -1));
+        setSort('desc');
+      }
+
+      if (sortItems) {
+        setTableData({
+          columns,
+          data: sortItems,
+        });
+      }
+    },
+    [tableItems, sort]
+  );
 
   return { tableData, setTableData, generateTableRow, filterTableItems, sortTableItems };
 };
