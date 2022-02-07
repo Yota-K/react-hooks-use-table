@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useTable } from './useTable';
-import DataTable from './Table';
 
 function App() {
   type Data = { userId: string; id: string; title: string };

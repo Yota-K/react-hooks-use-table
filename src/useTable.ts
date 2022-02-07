@@ -1,12 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { TableState } from './type';
-
-type StateType<T> = {
-  columns: TableState['columns'];
-  data: T[];
-};
-
-type Order = 'asc' | 'desc';
+import { StateType, Order } from './type';
 
 export const useTable = <T extends { [T: string]: string }>(
   columns: StateType<T>['columns'],

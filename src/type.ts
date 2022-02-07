@@ -7,3 +7,10 @@ export type TableState = {
     [key: string]: string;
   }[];
 };
+
+export type StateType<T> = {
+  columns: TableState['columns'];
+  data: T[];
+};
+
+export type Order = 'asc' | 'desc';
