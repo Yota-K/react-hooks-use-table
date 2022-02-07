@@ -6,6 +6,8 @@ type StateType<T> = {
   data: T[];
 };
 
+type Order = 'asc' | 'desc';
+
 export const useTable = <T extends { [T: string]: string }>(
   columns: StateType<T>['columns'],
   data: StateType<T>['data']
@@ -17,6 +19,8 @@ export const useTable = <T extends { [T: string]: string }>(
     columns,
     data,
   });
+
+  const [sort, setSort] = useState<Order>('desc');
 
   const tableItems = useMemo(() => data, [data]);
 
@@ -31,11 +35,22 @@ export const useTable = <T extends { [T: string]: string }>(
   };
 
   const sortTableItems = (sortKey: string) => {
-    const sortItems = tableData.data.sort((a, b) => (a[sortKey] < b[sortKey] ? 1 : -1));
-    setTableData({
-      columns,
-      data: sortItems,
-    });
+    let sortItems;
+
+    if (sort === 'desc') {
+      sortItems = tableData.data.sort((a, b) => (a[sortKey] < b[sortKey] ? 1 : -1));
+      setSort('asc');
+    } else if (sort === 'asc') {
+      sortItems = tableData.data.sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : -1));
+      setSort('desc');
+    }
+
+    if (sortItems) {
+      setTableData({
+        columns,
+        data: sortItems,
+      });
+    }
   };
 
   return { tableData, setTableData, generateTableRow, filterTableItems, sortTableItems };

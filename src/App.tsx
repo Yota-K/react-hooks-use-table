@@ -11,13 +11,20 @@ function App() {
   const columns = useMemo(
     () => [
       {
-        name: 'userId',
+        fieldName: 'UserID',
+        sortKey: 'userId',
       },
       {
-        name: 'id',
+        fieldName: 'ID',
+        sortKey: 'id',
       },
       {
-        name: 'title',
+        fieldName: 'title',
+        sortKey: 'title',
+      },
+      {
+        fieldName: 'body',
+        sortKey: 'body',
       },
     ],
     []
@@ -29,17 +36,22 @@ function App() {
       const data: Data[] = await res.json();
       setTableData({ columns, data });
       setData(data);
+      console.log(data);
       if (data) setMounted(true);
     };
 
     if (!mounted) fetchData();
   }, []);
 
-  const { tableData, generateTableRow, setTableData, filterTableItems } = useTable<Data>(columns, data);
+  const { tableData, generateTableRow, setTableData, filterTableItems, sortTableItems } = useTable<Data>(columns, data);
   const tableRow = generateTableRow(tableData.data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     filterTableItems(e.target.value);
+  };
+
+  const handleSort = (sortKey: string | undefined) => {
+    sortTableItems(sortKey as string);
   };
 
   return (
@@ -53,7 +65,10 @@ function App() {
           <thead>
             <tr>
               {tableData.columns.map((e, i) => (
-                <th key={i}>{e.name}</th>
+                <th key={i}>
+                  <span style={{ fontSize: '14px' }}>{e.fieldName}</span>
+                  <span onClick={() => handleSort(e.sortKey)}>▲</span>
+                </th>
               ))}
             </tr>
           </thead>

@@ -1,6 +1,7 @@
 export type TableState = {
   columns: {
-    name: string;
+    fieldName: string;
+    sortKey?: string;
   }[];
   data: {
     [key: string]: string;

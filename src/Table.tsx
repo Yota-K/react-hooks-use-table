@@ -9,7 +9,7 @@ const DataTable: React.FC<TableProps> = ({ columns, data }) => {
       <thead>
         <tr>
           {columns.map((e, i) => (
-            <th key={i}>{e.name}</th>
+            <th key={i}>{e.fieldName}</th>
           ))}
         </tr>
       </thead>
