@@ -18,8 +18,6 @@ export const useTable = <T extends { [T: string]: string }>(
     data,
   });
 
-  const [tableLoading, setTableLoading] = useState(true);
-
   const tableItems = useMemo(() => data, [data]);
 
   const filterTableItems = (keyword: string) => {
@@ -38,5 +36,5 @@ export const useTable = <T extends { [T: string]: string }>(
     });
   };
 
-  return { tableData, setTableData, tableLoading, setTableLoading, filterTableItems, sortTableItems };
+  return { tableData, setTableData, filterTableItems, sortTableItems };
 };
